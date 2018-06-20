@@ -64,18 +64,12 @@ Map.prototype.desenhar = function (ctx) {
         ctx.strokeStyle = "grey";
         ctx.fillRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
         ctx.strokeRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
-      } else if(this.cell[l][c] === 5){             //Mina
+      } else if(this.cell[l][c] === 5){             //Terreno vazio
         imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
-        ctx.fillStyle = "darkgrey";
-        ctx.strokeStyle = "grey";
-        ctx.fillRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
-        ctx.strokeRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
-      } else if(this.cell[l][c] === 6){             //Tesouro
+        imageLibrary.drawClipSize(ctx, "sandBlock", 0, 0, 80, 80, c*this.s, l*this.s, this.s, this.s);
+      } else if(this.cell[l][c] === 6){             //Terreno com mina
         imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
-        ctx.fillStyle = "yellow";
-        ctx.strokeStyle = "grey";
-        ctx.fillRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
-        ctx.strokeRect(c*this.s + this.s/3, l*this.s + this.s/3, this.s/3, this.s/3);
+        imageLibrary.drawClipSize(ctx, "sandBlock", 0, 0, 80, 80, c*this.s, l*this.s, this.s, this.s);
       }
     }
   }

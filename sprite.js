@@ -84,9 +84,9 @@ Sprite.prototype.mover = function (dt) {
     var Dx = this.vx*dt;
     this.x += Math.min(Dx, maxDx);
   }*/
-  /*if(this.map.cell[this.gy][this.gx] === 2){    //Substitui o cenário já descoberto
+  if(this.map.cell[this.gy][this.gx] === 5){    //Substitui o cenário já descoberto
     this.map.cell[this.gy][this.gx] = 0;
-  }*/
+  }
 
 
 

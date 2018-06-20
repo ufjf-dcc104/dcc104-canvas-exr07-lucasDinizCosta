@@ -70,6 +70,16 @@ Map.prototype.desenhar = function (ctx) {
       } else if(this.cell[l][c] === 6){             //Terreno com mina
         imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
         imageLibrary.drawClipSize(ctx, "sandBlock", 0, 0, 80, 80, c*this.s, l*this.s, this.s, this.s);
+      } else if(this.cell[l][c] === 7){             //Teleporte
+        ctx.strokeStyle = "darkGreen";
+        ctx.fillStyle = "lightGreen";
+        ctx.linewidth = 10;
+        imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
+        ctx.save();
+        ctx.globalAlpha = 0.40;         //Transparência
+        ctx.fillRect(c*this.s, l*this.s, this.s, this.s);
+        ctx.strokeRect(c*this.s, l*this.s, this.s, this.s);
+        ctx.restore();
       }
     }
   }

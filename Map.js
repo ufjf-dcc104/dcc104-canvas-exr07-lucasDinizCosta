@@ -80,6 +80,22 @@ Map.prototype.desenhar = function (ctx) {
         ctx.fillRect(c*this.s, l*this.s, this.s, this.s);
         ctx.strokeRect(c*this.s, l*this.s, this.s, this.s);
         ctx.restore();
+      } else if(this.cell[l][c] === 8){             //Bloco lento
+        ctx.strokeStyle = "purple";
+        ctx.fillStyle = "purple";
+        ctx.linewidth = 10;
+        imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
+        ctx.save();
+        ctx.globalAlpha = 0.60;         //Transparência
+        ctx.fillRect(c*this.s, l*this.s, this.s, this.s);
+        ctx.strokeRect(c*this.s, l*this.s, this.s, this.s);
+        ctx.restore();
+      } else if(this.cell[l][c] === 9){             //Bloqueio com espinho
+        ctx.strokeStyle = "purple";
+        ctx.fillStyle = "purple";
+        ctx.linewidth = 10;
+        imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
+        imageLibrary.drawSize(ctx, "tijoloEspinho", c*this.s, l*this.s, this.s, this.s);
       }
     }
   }

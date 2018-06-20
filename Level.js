@@ -4,4 +4,6 @@ function Level() {
   this.minas = 0;
   this.startX = 0;
   this.startY = 0;
+  this.inimigos = [];
+  this.teleportes = [];
 };

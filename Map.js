@@ -91,11 +91,14 @@ Map.prototype.desenhar = function (ctx) {
         ctx.strokeRect(c*this.s, l*this.s, this.s, this.s);
         ctx.restore();
       } else if(this.cell[l][c] === 9){             //Bloqueio com espinho
-        ctx.strokeStyle = "purple";
-        ctx.fillStyle = "purple";
-        ctx.linewidth = 10;
         imageLibrary.drawSize(ctx, "sandGround", c*this.s, l*this.s, this.s, this.s);
         imageLibrary.drawSize(ctx, "tijoloEspinho", c*this.s, l*this.s, this.s, this.s);
+      } else if(this.cell[l][c] === 10){             //Posição do inimigo
+        ctx.strokeStyle = "darkgrey";
+        ctx.fillStyle = "grey";
+        ctx.linewidth = 10;
+        ctx.fillRect(c*this.s, l*this.s, this.s, this.s);
+        ctx.strokeRect(c*this.s, l*this.s, this.s, this.s);
       }
     }
   }

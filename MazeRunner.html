@@ -31,6 +31,9 @@
     levels.push(new Level(widthMap, heightMap, sizeMap));
     levels.push(new Level(widthMap, heightMap, sizeMap));
     levels.push(new Level(widthMap, heightMap, sizeMap));
+    levels[0].setTempo(15,125);
+    levels[1].setTempo(60,125);
+    levels[2].setTempo(30,125);
     //levels[0].mapa = new Map(19, 11, 32);
     //console.log(levels[0].mapa);
     levels[0].mapa.cell = [       //Fase 1
@@ -161,11 +164,11 @@
     var anterior = dt = 0;
 	  var tempoGameOver = 2;
     var tempoTransicaoFase = 1;     //Tempo que decai um pouco da barra
-    var taxaDiminuicaoTempo = Math.floor(125/120);
-    var estado = 0;
-    var playerVel = 200;
 
-    levelAtual.clonarLevel(levels[2]);
+    var estado = 1;
+    var playerVel = 150;
+
+    levelAtual.clonarLevel(levels[0]);
     player.sprite.map = levelAtual.mapa;
     player.sprite.x = levelAtual.startX;
     player.sprite.y = levelAtual.startY;
@@ -177,12 +180,15 @@
     imageLibrary.load("sandGround", "Imagens/SandGround.png");
     imageLibrary.load("sandBlock", "Imagens/Minecraft/Sand.png");
     imageLibrary.load("tijoloEspinho", "Imagens/tijolo-espinho.png");
+    imageLibrary.load("BG", "Imagens/BG.jpg");
+
     var audioLibrary = new AudioLibrary();
     audioLibrary.load("hurt", "Audios/classic_hurt.ogg");
     audioLibrary.load("explode", "Audios/explode1.ogg");
+    audioLibrary.load("teleporte", "Audios/TELEPORT.WAV");
     audioLibrary.load("sandWalk", "Audios/sand1.ogg");
     audioLibrary.load("treasureCollect", "Audios/treasureCollect.ogg");
-    audioLibrary.load("BGM", "Audios/Minecraft_-Wet_Hands(piano).mp3");
+    audioLibrary.load("BGM", "Audios/Maze_Runner-Theme.mp3");
 
     //Tempo
     var tempoRectExt = new Sprite();
@@ -231,9 +237,9 @@
     	  switch (estado) {
             case 0:
               limparTela();
-              /*if(audioLibrary.isPlaying("BGM")==false){
+              if(audioLibrary.isPlaying("BGM")==false){
                 audioLibrary.play("BGM");
-              }*/
+              }
               player.mover(dt);
         			levelAtual.desenhar(ctx);
         			player.desenhar(ctx);
@@ -253,29 +259,33 @@
               ctx.strokeText("Level: "+ player.levelNumber, 545, 20);
               ctx.fillText("Level: "+ player.levelNumber, 545, 20);
 
-              /*if(tempoTransicaoFase <= 0){
+              if(tempoTransicaoFase <= 0){
                 tempoTransicaoFase = 1;
-                tempoRectInt.w = tempoRectInt.w - taxaDiminuicaoTempo;
+                tempoRectInt.w = tempoRectInt.w - levelAtual.taxaDiminuicaoTempo;
                 if(tempoRectInt.w <= 0){
                   tempoRectInt.w = 0;
                 }
               }
               else if(tempoTransicaoFase > 0 && tempoRectInt.w > 0){
                   tempoTransicaoFase = tempoTransicaoFase - dt;
-              }*/
+              }
               if(levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx]===4){
                 teasuresCollected++;
                 audioLibrary.play("treasureCollect");
                 levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx] = 0;
               }
               if(tempoRectInt.w===0||levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx]===6){
-                /*if(audioLibrary.isPlaying("BGM")){
+                if(audioLibrary.isPlaying("BGM")){
                   audioLibrary.stop("BGM");
-                }*/
+                }
                 if(levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx]===6){
                   audioLibrary.play("hurt");
                   audioLibrary.play("explode");
                   levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx] = 0;
+                  player.vidas = player.vidas - 1;
+                }
+                if(tempoRectInt.w===0){
+                  tempoRectInt.w = 125;
                   player.vidas = player.vidas - 1;
                 }
                 if(player.vidas === 0){   //GameOver
@@ -283,51 +293,48 @@
                 }
                 player.sprite.x = levelAtual.startX;
                 player.sprite.y = levelAtual.startY;
-                tempoRectInt.w = 125;
               }
               if(teasuresCollected===levelAtual.tesouros &&(player.sprite.gx===levelAtual.finishGX)&&(player.sprite.gy===levelAtual.finishGY)){
                 estado = 4;
               }
 
-              //console.log(tempoTransicaoFase);
-              //ctx.strokeText(player.pontos, tela.width - 50, 20);
-              //ctx.fillText(player.pontos, tela.width - 50, 20);
               break;
             case 1:         //Main menu
               limparTela();
-              //imageLibrary.drawSize(ctx, "dark_background", 0, 0, tela.width, tela.height); // Imagem do fundo
-              /*if(audioLibrary.isPlaying("BGM")==false){
+              imageLibrary.drawSize(ctx, "BG", 0, 0, tela.width, tela.height); // Imagem do fundo
+              if(audioLibrary.isPlaying("BGM")==false){
                 audioLibrary.play("BGM");
-              }*/
+              }
               ctx.fillStyle = wordsColor;
               ctx.textAlign = alignMainMenu;
               ctx.lineWidth = 2;
               ctx.strokeStyle = "black";
               ctx.font = "40px Arial Black";
-              ctx.strokeText("Treasure explorer", tela.width/2, tela.height/3);
-              ctx.fillText("Treasure explorer", tela.width/2, tela.height/3);
+              //ctx.strokeText("Treasure explorer", tela.width/2, tela.height/3 - 50);
+              //ctx.fillText("Treasure explorer", tela.width/2, tela.height/3 - 50);
               ctx.font = "15px Arial Black";
               ctx.font = fontMainMenu;
               if(stateMainMenu == 0){
-                ctx.fillStyle = "blue";
-                ctx.strokeText("New Game", tela.width/2, tela.height/2 + tela.height/4-15);
-                ctx.fillText("New Game", tela.width/2, tela.height/2 + tela.height/4-15);
+                ctx.fillStyle = "yellow";
+                ctx.strokeText("New Game", tela.width/2, tela.height/2-60);
+                ctx.fillText("New Game", tela.width/2, tela.height/2-60);
                 ctx.fillStyle = wordsColor;
-                ctx.strokeText("Quit", tela.width/2, tela.height/2 + tela.height/3);
-                ctx.fillText("Quit", tela.width/2, tela.height/2 + tela.height/3);
+                ctx.strokeText("Quit", tela.width/2, tela.height/2-10);
+                ctx.fillText("Quit", tela.width/2, tela.height/2-10);
               }
               else{
                 ctx.fillStyle = wordsColor;
-                ctx.strokeText("New Game", tela.width/2, tela.height/2 + tela.height/4-15);
-                ctx.fillText("New Game", tela.width/2, tela.height/2 + tela.height/4-15);
-                ctx.fillStyle = "blue";
-                ctx.strokeText("Quit", tela.width/2, tela.height/2 + tela.height/3);
-                ctx.fillText("Quit", tela.width/2, tela.height/2 + tela.height/3);
+                ctx.strokeText("New Game", tela.width/2, tela.height/2-60);
+                ctx.fillText("New Game", tela.width/2, tela.height/2-60);
+                ctx.fillStyle = "yellow";
+                ctx.strokeText("Quit", tela.width/2, tela.height/2-10);
+                ctx.fillText("Quit", tela.width/2, tela.height/2-10);
               }
 
               break;
             case 2:
               limparTela();
+              audioLibrary.stop("BGM");
               ctx.fillStyle = "white";
               ctx.textAlign = alignMainMenu;
               ctx.font = "40px Arial Black";
@@ -419,8 +426,9 @@
             if(levelAtual.mapa.cell[player.sprite.gy][player.sprite.gx]===7){
               for (var i = 0; i < levelAtual.teleportes.length; i++) {
                 if(levelAtual.teleportes[i].startGX===player.sprite.gx && levelAtual.teleportes[i].startGY===player.sprite.gy){
-                  console.log("Foi");
+                  //console.log("Foi");
                   levelAtual.teleportes[i].teleportar(player);
+                  audioLibrary.play("teleporte");
                   break;
                 }
               }
@@ -442,6 +450,7 @@
             break;
           case 27:      //Pressionar o Esq
             stateMainMenu = 0;
+            limparDados();
             estado = 1;
             break;
           default:

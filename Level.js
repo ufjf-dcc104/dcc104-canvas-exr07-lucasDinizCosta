@@ -10,14 +10,17 @@ function Level(w,h,s) {
   this.finishY = 0;
   this.finishGX = 0;
   this.finishGY = 0;
+  this.tempoFase = 0;
+  this.taxaDiminuicaoTempo = 0;
   this.stateCollectedItens = false;
   this.inimigos = [];
   this.teleportes = [];
   this.itens = [];
 };
 
-Level.prototype.teste = function(){
-  console.log("teste");
+Level.prototype.setTempo = function(tempo, larguraBarra){
+  this.tempoFase = tempo;
+  this.taxaDiminuicaoTempo = Math.floor(larguraBarra/tempo);
 };
 
 Level.prototype.clonarLevel= function(level){
@@ -40,6 +43,8 @@ Level.prototype.clonarLevel= function(level){
   this.finishGX = level.finishGX;
   this.finishGY = level.finishGY;
   this.stateCollectedItens = level.stateCollectedItens;
+  this.tempoFase = level.tempoFase;
+  this.taxaDiminuicaoTempo = level.taxaDiminuicaoTempo;
   this.inimigos.length = 0;
   this.teleportes.length = 0;
   this.itens.length = 0;

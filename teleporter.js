@@ -9,5 +9,5 @@ teleporter.prototype.teleportar = function(player){
   //Executar um som
   player.sprite.x = this.finishGX*levelAtual.mapa.s + player.sprite.s;
   player.sprite.y = this.finishGY*levelAtual.mapa.s + player.sprite.s;
-  console.log("FOI");
+  //console.log("FOI");
 }

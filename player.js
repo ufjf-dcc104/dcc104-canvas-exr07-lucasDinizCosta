@@ -1,7 +1,8 @@
 function Player() {
   this.sprite = new Sprite();
   this.timeWalkSound = 0.5;
-  this.levelNumber = 0;
+  this.levelNumber = 1;
+  this.vidas = 3;
 
   //Mapa das teclas pressionadas
   this.up = false;
@@ -13,10 +14,10 @@ function Player() {
 Player.prototype.mover = function(dt){
   this.sprite.mover(dt);
   this.timeWalkSound = this.timeWalkSound - dt;
-  if((this.sprite.vx != 0 || this.sprite.vy != 0) && (this.timeWalkSound <= 0)){
+  /*if((this.sprite.vx != 0 || this.sprite.vy != 0) && (this.timeWalkSound <= 0)){
     audioLibrary.play("sandWalk");
     this.timeWalkSound = 0.5;
-  }
+  }*/
 
 }
 
